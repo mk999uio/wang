@@ -3,135 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>今日热榜</title>
+<title>陕西嘉诚伟业会议策划有限公司</title>
 
 <style>
 body{
     margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-    background:linear-gradient(180deg,#f6f7fb,#eef1f5);
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+    background:#0b0f1a;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+/* 背景光效 */
+.bg{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:radial-gradient(circle at 20% 20%, #2b5cff33, transparent 40%),
+               radial-gradient(circle at 80% 30%, #ff3b3033, transparent 40%),
+               radial-gradient(circle at 50% 80%, #00ffcc22, transparent 40%);
+    z-index:-1;
+    animation:move 10s infinite alternate;
+}
+
+@keyframes move{
+    from{transform:scale(1);}
+    to{transform:scale(1.2);}
 }
 
 /* 顶部 */
-.header{
-    padding:18px;
-    font-size:22px;
-    font-weight:800;
-    background:#fff;
-    position:sticky;
-    top:0;
-    z-index:10;
-    box-shadow:0 2px 12px rgba(0,0,0,0.05);
-}
-
-/* 容器 */
-.container{
-    padding:12px;
-}
-
-/* 卡片 */
-.card{
-    background:#fff;
-    border-radius:16px;
-    padding:14px;
-    margin-bottom:12px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.06);
-    transition:0.2s;
-}
-
-.card:active{
-    transform:scale(0.98);
-}
-
-/* 排名 */
-.rank{
-    width:30px;
-    height:30px;
-    border-radius:10px;
+header{
+    padding:20px;
     display:flex;
+    justify-content:space-between;
     align-items:center;
-    justify-content:center;
-    font-weight:bold;
-    color:#fff;
+}
+
+.logo{
+    font-size:18px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.btn{
+    padding:8px 14px;
+    border:1px solid #ffffff55;
+    border-radius:20px;
+    font-size:12px;
+}
+
+/* 主视觉 */
+.hero{
+    text-align:center;
+    padding:80px 20px 40px;
+}
+
+.hero h1{
+    font-size:26px;
     margin-bottom:10px;
 }
 
-.r1{background:#ff3b30;}
-.r2{background:#ff9500;}
-.r3{background:#34c759;}
-.r4{background:#5856d6;}
-.r5{background:#007aff;}
-
-/* 标题 */
-.title{
-    font-size:16px;
-    font-weight:700;
-    margin-bottom:6px;
-    line-height:1.4;
+.hero p{
+    color:#aaa;
+    font-size:14px;
 }
 
-/* 描述 */
-.desc{
-    font-size:13px;
-    color:#777;
-    line-height:1.5;
-}
-
-/* 标签 */
-.tag{
+/* 按钮 */
+.cta{
+    margin-top:20px;
     display:inline-block;
+    padding:10px 22px;
+    border-radius:30px;
+    background:linear-gradient(90deg,#4facfe,#00f2fe);
+    color:#000;
+    font-weight:bold;
+}
+
+/* 卡片 */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    padding:20px;
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:16px;
+    padding:14px;
+    backdrop-filter: blur(10px);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h3{
+    font-size:14px;
+    margin-bottom:6px;
+}
+
+.card p{
     font-size:12px;
-    padding:2px 8px;
-    border-radius:20px;
-    background:#f0f0f0;
-    margin-top:8px;
+    color:#bbb;
+}
+
+/* 底部 */
+footer{
+    text-align:center;
+    padding:30px 10px;
+    font-size:12px;
     color:#666;
+}
+
+/* 动画粒子 */
+.particle{
+    position:absolute;
+    width:6px;
+    height:6px;
+    background:#4facfe;
+    border-radius:50%;
+    animation:float 6s infinite;
+}
+
+@keyframes float{
+    0%{transform:translateY(0);opacity:1;}
+    100%{transform:translateY(-600px);opacity:0;}
+}
+
+/* 手机适配 */
+@media(max-width:600px){
+    .grid{
+        grid-template-columns:1fr;
+    }
+    .hero h1{
+        font-size:22px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">🔥 今日热榜</div>
+<div class="bg"></div>
 
-<div class="container">
+<header>
+    <div class="logo">嘉诚伟业</div>
+    <div class="btn">会议策划专家</div>
+</header>
 
-<div class="card">
-    <div class="rank r1">1</div>
-    <div class="title">中国航天再传重大突破</div>
-    <div class="desc">我国航天工程取得新进展，多项关键技术实现突破，引发广泛关注。</div>
-    <div class="tag">科技</div>
+<div class="hero">
+    <h1>专业会议策划 · 品牌活动执行</h1>
+    <p>陕西嘉诚伟业会议策划有限公司</p>
+    <div class="cta">开启合作</div>
 </div>
 
-<div class="card">
-    <div class="rank r2">2</div>
-    <div class="title">人工智能进入爆发阶段</div>
-    <div class="desc">AI产业持续升温，大模型应用正在进入各个行业场景。</div>
-    <div class="tag">AI</div>
-</div>
+<div class="grid">
 
 <div class="card">
-    <div class="rank r3">3</div>
-    <div class="title">全球经济趋势变化分析</div>
-    <div class="desc">多国经济数据发布，全球市场进入新的调整周期。</div>
-    <div class="tag">财经</div>
+    <h3>🎤 活动策划</h3>
+    <p>大型会议、论坛、发布会全案策划执行</p>
 </div>
 
 <div class="card">
-    <div class="rank r4">4</div>
-    <div class="title">新能源车市场持续增长</div>
-    <div class="desc">新能源汽车销量再创新高，产业链加速发展。</div>
-    <div class="tag">汽车</div>
+    <h3>🎬 视觉设计</h3>
+    <p>舞美设计、舞台搭建、灯光音响一体化</p>
 </div>
 
 <div class="card">
-    <div class="rank r5">5</div>
-    <div class="title">科技公司发布新一代产品</div>
-    <div class="desc">多家科技企业推出新产品，引发行业关注与讨论。</div>
-    <div class="tag">科技</div>
+    <h3>📊 品牌推广</h3>
+    <p>企业品牌活动策划与传播方案制定</p>
+</div>
+
+<div class="card">
+    <h3>🏢 会务服务</h3>
+    <p>高端会议接待、流程管理与执行保障</p>
 </div>
 
 </div>
+
+<footer>
+© 2026 陕西嘉诚伟业会议策划有限公司 · 专业 · 高效 · 创新
+</footer>
+
+<script>
+
+// 粒子动画
+for(let i=0;i<25;i++){
+    let p=document.createElement("div");
+    p.className="particle";
+    p.style.left=Math.random()*100+"vw";
+    p.style.top=Math.random()*100+"vh";
+    p.style.animationDuration=(3+Math.random()*5)+"s";
+    document.body.appendChild(p);
+}
+
+// 按钮点击效果
+document.querySelector(".cta").onclick=function(){
+    alert("感谢关注，我们将尽快与您联系！");
+};
+
+</script>
 
 </body>
 </html>
