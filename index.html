@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>澎湃热榜</title>
+
+<style>
+body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+    background:#f5f5f5;
+}
+
+。header{
+    background:#fff;
+    padding:16px;
+    font-size:20px;
+    font-weight:bold;
+    position:sticky;
+    top:0;
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+。list{
+    padding:12px;
+}
+
+。item{
+    background:#fff;
+    margin-bottom:12px;
+    padding:14px;
+    border-radius:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+    cursor:pointer;
+    transition:0.2s;
+}
+
+。item:active{
+    transform:scale(0.98);
+}
+
+。rank{
+    display:inline-block;
+    width:26px;
+    height:26px;
+    line-height:26px;
+    text-align:center;
+    border-radius:50%;
+    background:#ff4d4f;
+    color:#fff;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+。title{
+    font-size:16px;
+    font-weight:600;
+    margin-bottom:6px;
+}
+
+。desc{
+    font-size:13px;
+    color:#888;
+}
+
+。loading{
+    text-align:center;
+    padding:40px;
+    color:#999;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">🔥 澎湃热榜</div>
+
+<div class="list" id="list">
+    <div class="loading">加载中...</div>
+</div>
+
+<script>
+
+const api = "https://api.istero.com/resource/v1/pengpai/news/top?token=CDAgWQhHJGzBiDLCsfdivemXqArPUNdL";
+
+async function load(){
+
+    const box = document.getElementById("list");
+
+    try{
+
+        const res = await fetch(api);
+        const data = await res.json();
+
+        const list = data.data || data.result || [];
+
+        box.innerHTML = "";
+
+        list.forEach((item,index)=>{
+
+            const div = document.createElement("div");
+            div.className = "item";
+
+            div.innerHTML = `
+                <div class="rank">${index+1}</div>
+                <div class="title">${item.title || "无标题"}</div>
+                <div class="desc">${item.desc || ""}</div>
+            `;
+
+            div.onclick = ()=>{
+                if(item.url){
+                    window.open(item.url);
+                }
+            };
+
+            box.appendChild(div);
+        });
+
+    }catch(e){
+        box.innerHTML = "<div class='loading'>加载失败</div>";
+    }
+}
+
+load();
+
+</script>
+
+</body>
+</html>
