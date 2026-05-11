@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>天气预报</title>
+<title>天气完整版</title>
 
 <style>
 
@@ -19,101 +19,95 @@ body{
   min-height:100vh;
   display:flex;
   justify-content:center;
-  align-items:flex-start;
-  padding:40px 20px;
+  padding:30px 15px;
   color:#fff;
 }
 
+/* 容器 */
 .container{
   width:100%;
   max-width:900px;
 }
 
+/* 标题 */
 .title{
   text-align:center;
   font-size:42px;
   font-weight:bold;
-  margin-bottom:25px;
+  margin-bottom:20px;
 }
 
+/* 搜索 */
 .search{
   display:flex;
-  gap:12px;
-  margin-bottom:25px;
+  gap:10px;
+  margin-bottom:20px;
 }
 
 .search input{
   flex:1;
-  height:50px;
+  height:48px;
   border:none;
-  border-radius:14px;
+  border-radius:12px;
   padding:0 15px;
   font-size:16px;
   outline:none;
 }
 
 .search button{
-  width:130px;
+  width:120px;
   border:none;
-  border-radius:14px;
+  border-radius:12px;
   background:#1677ff;
   color:#fff;
   font-size:16px;
   cursor:pointer;
 }
 
-.search button:hover{
-  background:#4096ff;
-}
-
 /* 顶部卡片 */
-
 .card{
   background:rgba(255,255,255,.15);
   backdrop-filter:blur(12px);
-  border-radius:25px;
-  padding:25px;
-  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  border-radius:22px;
+  padding:20px;
   margin-bottom:20px;
 }
 
 .top{
   display:flex;
   justify-content:space-between;
-  align-items:center;
   flex-wrap:wrap;
-  gap:15px;
+  gap:10px;
 }
 
 .city{
-  font-size:34px;
+  font-size:32px;
   font-weight:bold;
 }
 
 .time{
-  font-size:18px;
+  font-size:16px;
   opacity:.9;
 }
 
 .warm{
   margin-top:10px;
-  font-size:15px;
+  font-size:14px;
   opacity:.85;
 }
 
-/* 逐日天气 */
-
+/* 天气列表 */
 .list{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-  gap:15px;
+  gap:12px;
   margin-top:20px;
 }
 
 .item{
   background:rgba(255,255,255,.12);
-  padding:18px;
-  border-radius:18px;
+  padding:15px;
+  border-radius:16px;
   text-align:center;
   transition:.3s;
 }
@@ -123,36 +117,55 @@ body{
 }
 
 .week{
-  font-size:18px;
+  font-size:16px;
   font-weight:bold;
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
 
 .weather{
-  font-size:16px;
-  margin-bottom:8px;
+  font-size:15px;
+  margin-bottom:6px;
 }
 
 .temp{
-  font-size:20px;
+  font-size:18px;
   font-weight:bold;
-  margin-bottom:8px;
 }
 
 .pm{
-  font-size:13px;
-  opacity:.85;
+  font-size:12px;
+  opacity:.8;
+  margin-top:5px;
 }
 
+/* 状态 */
 .loading,
 .error{
   text-align:center;
   margin-top:15px;
-  font-size:18px;
+  font-size:16px;
 }
 
 .error{
   color:#ffe1e1;
+}
+
+/* 手机适配 */
+@media(max-width:600px){
+
+  .title{
+    font-size:32px;
+  }
+
+  .search{
+    flex-direction:column;
+  }
+
+  .search button{
+    width:100%;
+    height:48px;
+  }
+
 }
 
 </style>
@@ -162,15 +175,13 @@ body{
 
 <div class="container">
 
-  <div class="title">🌤️ 天气预报</div>
+  <div class="title">🌤️ 天气完整版</div>
 
   <div class="search">
 
     <input id="cityInput" placeholder="请输入城市，例如：天津">
 
-    <button onclick="getWeather()">
-      查询
-    </button>
+    <button onclick="getWeather()">查询</button>
 
   </div>
 
@@ -182,6 +193,10 @@ body{
 </div>
 
 <script>
+
+/* =========================
+   核心请求
+========================= */
 
 async function getWeather(){
 
@@ -210,62 +225,55 @@ async function getWeather(){
 
     const res = await fetch(api);
 
-    if(!res.ok){
-      throw new Error("请求失败");
-    }
-
     const data = await res.json();
 
-    console.log(data);
+    console.log("接口返回：", data);
 
     loading.innerHTML = "";
 
-    let html = "";
+    /* =========================
+       安全处理（重点优化）
+    ========================= */
 
-    html += `
+    const cityName = data.city || city;
+    const time = (data.date_day || "") + " " + (data.date_h || "");
+    const warm = data.warmWords || "";
+
+    const list = Array.isArray(data.data) ? data.data : [];
+
+    /* =========================
+       渲染HTML
+    ========================= */
+
+    let html = `
       <div class="card">
 
         <div class="top">
 
           <div>
-            <div class="city">
-              ${data.city}
-            </div>
-
-            <div class="warm">
-              ${data.warmWords}
-            </div>
+            <div class="city">${cityName}</div>
+            <div class="warm">${warm}</div>
           </div>
 
-          <div class="time">
-            ${data.date_day} ${data.date_h}
-          </div>
+          <div class="time">${time}</div>
 
         </div>
 
         <div class="list">
     `;
 
-    data.data.forEach(item=>{
+    list.forEach(item => {
 
       html += `
         <div class="item">
 
-          <div class="week">
-            ${item.date}
-          </div>
+          <div class="week">${item.date || "--"}</div>
 
-          <div class="weather">
-            ${item.weather}
-          </div>
+          <div class="weather">${item.weather || "--"}</div>
 
-          <div class="temp">
-            ${item.temperature}
-          </div>
+          <div class="temp">${item.temperature || "--"}</div>
 
-          <div class="pm">
-            PM：${item.pm}
-          </div>
+          <div class="pm">PM：${item.pm || "--"}</div>
 
         </div>
       `;
@@ -274,7 +282,6 @@ async function getWeather(){
 
     html += `
         </div>
-
       </div>
     `;
 
@@ -286,8 +293,7 @@ async function getWeather(){
 
     loading.innerHTML = "";
 
-    error.innerHTML =
-    "接口请求失败，请检查网络或接口";
+    error.innerHTML = "接口请求失败（检查网络或API）";
 
   }
 
