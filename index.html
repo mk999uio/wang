@@ -1,481 +1,632 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>陕西嘉诚伟业会议策划有限公司 - 专业会议会展策划</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft YaHei",sans-serif;
-        }
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            background: #050818;
-            color: #fff;
-            overflow-x: hidden;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>天气 + 知乎日报</title>
 
-        /* 高级粒子画布 */
-        #particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            background: radial-gradient(circle at center, #0f1730 0%, #050818 100%);
-        }
+  <style>
 
-        /* 导航栏 */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 999;
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.4s ease;
-            background: transparent;
-        }
-        header.sticky {
-            background: rgba(5,8,24,0.9);
-            box-shadow: 0 2px 20px rgba(0,150,255,0.15);
-            padding: 12px 5%;
-        }
-        .logo {
-            font-size: 22px;
-            font-weight: bold;
-            background: linear-gradient(90deg, #42a5f5, #64ffda);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .nav-menu a {
-            color: #e0eaff;
-            text-decoration: none;
-            margin: 0 12px;
-            font-size: 15px;
-            position: relative;
-            transition: 0.3s;
-        }
-        .nav-menu a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #64ffda;
-            transition: 0.3s;
-        }
-        .nav-menu a:hover::after {
-            width: 100%;
-        }
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
 
-        /* 容器层级 */
-        .wrap {
-            position: relative;
-            z-index: 10;
-        }
+    body{
+      font-family:"Microsoft YaHei",sans-serif;
+      background:#f5f7fb;
+      color:#333;
+    }
 
-        /* 首页banner */
-        .banner {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-        }
-        .banner h1 {
-            font-size: 3.2rem;
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, #42a5f5, #64ffda, #7986cb);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: gradientMove 4s ease infinite;
-        }
-        .banner p {
-            font-size: 1.2rem;
-            color: #b0c4de;
-            margin-bottom: 40px;
-            letter-spacing: 3px;
-        }
-        .banner-btn {
-            padding: 14px 45px;
-            border: 1px solid #64ffda;
-            color: #64ffda;
-            text-decoration: none;
-            border-radius: 50px;
-            transition: all 0.4s ease;
-        }
-        .banner-btn:hover {
-            background: #64ffda;
-            color: #050818;
-            box-shadow: 0 0 25px rgba(100,255,218,0.4);
-            transform: translateY(-5px);
-        }
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
 
-        /* 通用区块样式 */
-        .section {
-            padding: 80px 5%;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease;
-        }
-        .section.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .sec-title {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 60px;
-            position: relative;
-        }
-        .sec-title::after {
-            content: '';
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg,#42a5f5,#64ffda);
-            position: absolute;
-            left: 50%;
-            bottom: -15px;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
+    /* 顶部背景 */
 
-        /* 关于我们 */
-        .about-box {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
-        }
-        .about-text h3 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: #64ffda;
-        }
-        .about-text p {
-            line-height: 1.8;
-            color: #b0c4de;
-        }
+    .hero{
+      position:relative;
+      height:420px;
+      background:
+      linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
+      url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop');
+      background-size:cover;
+      background-position:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+    }
 
-        /* 服务板块 */
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(3,1fr);
-            gap: 30px;
-        }
-        .service-card {
-            background: rgba(255,255,255,0.05);
-            padding: 40px 25px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid rgba(100,255,218,0.1);
-            transition: 0.4s ease;
-        }
-        .service-card:hover {
-            transform: translateY(-10px);
-            border-color: #64ffda;
-            box-shadow: 0 10px 30px rgba(100,255,218,0.15);
-        }
-        .service-card h4 {
-            margin: 15px 0;
-            font-size: 1.2rem;
-        }
-        .service-card p {
-            color: #b0c4de;
-            font-size: 14px;
-        }
+    .hero-content{
+      width:100%;
+      max-width:1200px;
+      padding:20px;
+    }
 
-        /* 案例板块 */
-        .case-grid {
-            display: grid;
-            grid-template-columns: repeat(3,1fr);
-            gap: 25px;
-        }
-        .case-item {
-            height: 200px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(100,255,218,0.1);
-            transition: 0.4s;
-        }
-        .case-item:hover {
-            border-color: #42a5f5;
-            transform: scale(1.03);
-        }
+    .hero-title{
+      font-size:48px;
+      font-weight:bold;
+      margin-bottom:20px;
+    }
 
-        /* 联系我们 */
-        .contact-info {
-            text-align: center;
-            line-height: 2.2;
-            font-size: 16px;
-            color: #b0c4de;
-        }
+    .search-box{
+      display:flex;
+      gap:15px;
+      max-width:500px;
+    }
 
-        /* 页脚 */
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            color: #8892b0;
-            font-size: 14px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
+    .search-box input{
+      flex:1;
+      height:50px;
+      border:none;
+      border-radius:14px;
+      padding:0 18px;
+      font-size:16px;
+      outline:none;
+    }
 
-        /* 动画 */
-        @keyframes gradientMove {
-            0%{background-position:0% 50%}
-            50%{background-position:100% 50%}
-            100%{background-position:0% 50%}
-        }
+    .search-box button{
+      width:130px;
+      border:none;
+      border-radius:14px;
+      background:#1677ff;
+      color:#fff;
+      font-size:16px;
+      cursor:pointer;
+      transition:.3s;
+    }
 
-        /* 移动端适配 */
-        @media (max-width:768px){
-            .nav-menu {display: none;}
-            .banner h1 {font-size: 2rem;}
-            .about-box,.service-grid,.case-grid {
-                grid-template-columns: 1fr;
-            }
-            .section {padding: 60px 4%;}
-        }
-    </style>
+    .search-box button:hover{
+      background:#4096ff;
+    }
+
+    /* 天气卡片 */
+
+    .weather-wrapper{
+      max-width:1200px;
+      margin:auto;
+      margin-top:-80px;
+      position:relative;
+      z-index:2;
+      padding:0 20px;
+    }
+
+    .weather-card{
+      background:#fff;
+      border-radius:25px;
+      padding:30px;
+      box-shadow:0 10px 30px rgba(0,0,0,.1);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:20px;
+    }
+
+    .weather-left{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .city{
+      font-size:38px;
+      font-weight:bold;
+    }
+
+    .temp{
+      font-size:70px;
+      font-weight:bold;
+      color:#1677ff;
+    }
+
+    .weather{
+      font-size:22px;
+      color:#666;
+    }
+
+    .weather-right{
+      display:grid;
+      grid-template-columns:repeat(2,160px);
+      gap:15px;
+    }
+
+    .info-box{
+      background:#f5f7fb;
+      padding:18px;
+      border-radius:16px;
+      text-align:center;
+    }
+
+    .info-title{
+      color:#888;
+      margin-bottom:10px;
+    }
+
+    .info-value{
+      font-size:24px;
+      font-weight:bold;
+      color:#333;
+    }
+
+    /* 内容区域 */
+
+    .container{
+      max-width:1200px;
+      margin:auto;
+      padding:40px 20px;
+    }
+
+    .section-title{
+      font-size:34px;
+      font-weight:bold;
+      margin-bottom:30px;
+    }
+
+    /* 顶部推荐 */
+
+    .top-stories{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:25px;
+      margin-bottom:50px;
+    }
+
+    .top-card{
+      position:relative;
+      height:240px;
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow:0 8px 20px rgba(0,0,0,.15);
+      transition:.3s;
+    }
+
+    .top-card:hover{
+      transform:translateY(-6px);
+    }
+
+    .top-card img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .overlay{
+      position:absolute;
+      left:0;
+      bottom:0;
+      width:100%;
+      padding:20px;
+      background:linear-gradient(
+        transparent,
+        rgba(0,0,0,.85)
+      );
+      color:#fff;
+    }
+
+    .overlay h3{
+      font-size:20px;
+      line-height:1.6;
+      margin-bottom:10px;
+    }
+
+    .overlay p{
+      font-size:14px;
+      opacity:.9;
+    }
+
+    /* 新闻列表 */
+
+    .news-list{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:30px;
+    }
+
+    .news-card{
+      background:#fff;
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow:0 8px 20px rgba(0,0,0,.08);
+      transition:.3s;
+    }
+
+    .news-card:hover{
+      transform:translateY(-6px);
+    }
+
+    .news-card img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+    }
+
+    .news-content{
+      padding:22px;
+    }
+
+    .news-title{
+      font-size:22px;
+      font-weight:bold;
+      line-height:1.7;
+      margin-bottom:12px;
+    }
+
+    .news-hint{
+      color:#888;
+      font-size:15px;
+    }
+
+    .loading,
+    .error{
+      text-align:center;
+      margin-top:30px;
+      font-size:18px;
+    }
+
+    .error{
+      color:red;
+    }
+
+    @media(max-width:768px){
+
+      .hero{
+        height:500px;
+      }
+
+      .hero-title{
+        font-size:38px;
+      }
+
+      .search-box{
+        flex-direction:column;
+      }
+
+      .search-box button{
+        width:100%;
+        height:50px;
+      }
+
+      .weather-card{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .weather-right{
+        grid-template-columns:1fr 1fr;
+        width:100%;
+      }
+
+      .temp{
+        font-size:55px;
+      }
+
+    }
+
+  </style>
 </head>
+
 <body>
-    <!-- 高级粒子背景 -->
-    <canvas id="particles"></canvas>
 
-    <div class="wrap">
-        <!-- 导航栏 -->
-        <header>
-            <div class="logo">陕西嘉诚伟业会议策划</div>
-            <nav class="nav-menu">
-                <a href="#home">首页</a>
-                <a href="#about">关于我们</a>
-                <a href="#service">业务服务</a>
-                <a href="#case">经典案例</a>
-                <a href="#contact">联系我们</a>
-            </nav>
-        </header>
+<!-- 顶部 -->
 
-        <!-- 首页Banner -->
-        <section class="banner" id="home">
-            <h1>陕西嘉诚伟业会议策划有限公司</h1>
-            <p>专业会议策划 | 会展服务 | 活动执行 | 庆典策划</p>
-            <a href="#contact" class="banner-btn">立即咨询</a>
-        </section>
+<div class="hero">
 
-        <!-- 关于我们 -->
-        <section class="section" id="about">
-            <h2 class="sec-title">关于我们</h2>
-            <div class="about-box">
-                <div class="about-text">
-                    <h3>企业简介</h3>
-                    <p>陕西嘉诚伟业会议策划有限公司是陕西本地专业从事会议策划、会展搭建、商务论坛、企业年会、开业庆典、文旅活动策划执行的综合型服务企业。公司拥有专业策划团队、执行团队、设计团队，深耕会议会展行业多年，服务政府机关、企事业单位、各大企业品牌，以专业、诚信、高效、品质为服务宗旨，打造一站式会议活动整体解决方案。</p>
-                </div>
-                <div class="about-text">
-                    <h3>核心优势</h3>
-                    <p>✅ 一站式全流程策划执行<br>✅ 专业舞台灯光音响搭建<br>✅ 会场布置、礼仪主持、物料制作<br>✅ 本地化服务、响应快、性价比高<br>✅ 高端定制化会议活动方案</p>
-                </div>
-            </div>
-        </section>
+  <div class="hero-content">
 
-        <!-- 业务服务 -->
-        <section class="section" id="service">
-            <h2 class="sec-title">业务服务</h2>
-            <div class="service-grid">
-                <div class="service-card">
-                    <h4>会议论坛策划</h4>
-                    <p>商务会议、行业论坛、峰会研讨、招商会</p>
-                </div>
-                <div class="service-card">
-                    <h4>企业年会庆典</h4>
-                    <p>公司年会、周年庆典、开业奠基、揭牌仪式</p>
-                </div>
-                <div class="service-card">
-                    <h4>会展展览服务</h4>
-                    <p>展台设计搭建、展位布置、展会全程执行</p>
-                </div>
-                <div class="service-card">
-                    <h4>舞台演艺设备</h4>
-                    <p>舞台搭建、灯光音响、LED大屏、礼仪演艺</p>
-                </div>
-                <div class="service-card">
-                    <h4>文旅活动策划</h4>
-                    <p>文旅节庆、民俗活动、户外团建、赛事承办</p>
-                </div>
-                <div class="service-card">
-                    <h4>物料设计制作</h4>
-                    <p>海报展板、宣传物料、伴手礼、签到物料</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 经典案例 -->
-        <section class="section" id="case">
-            <h2 class="sec-title">经典案例</h2>
-            <div class="case-grid">
-                <div class="case-item">会议峰会案例</div>
-                <div class="case-item">企业年会案例</div>
-                <div class="case-item">展会搭建案例</div>
-                <div class="case-item">开业庆典案例</div>
-                <div class="case-item">政府论坛案例</div>
-                <div class="case-item">文旅活动案例</div>
-            </div>
-        </section>
-
-        <!-- 联系我们 -->
-        <section class="section" id="contact">
-            <h2 class="sec-title">联系我们</h2>
-            <div class="contact-info">
-                <p>公司名称：陕西嘉诚伟业会议策划有限公司</p>
-                <p>咨询电话：138XXXX8888</p>
-                <p>公司地址：陕西省西安市XX区XX大厦</p>
-                <p>业务范围：西安及陕西全省会议活动策划执行</p>
-            </div>
-        </section>
-
-        <!-- 页脚 -->
-        <footer>
-            © 2025 陕西嘉诚伟业会议策划有限公司 版权所有 | 专业会议会展全程服务
-        </footer>
+    <div class="hero-title">
+      ☁ 天气 · 知乎日报
     </div>
 
-    <script>
-        // 高级粒子系统
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
-        let canvasW, canvasH;
+    <div class="search-box">
 
-        function resizeCanvas(){
-            canvasW = window.innerWidth;
-            canvasH = window.innerHeight;
-            canvas.width = canvasW;
-            canvas.height = canvasH;
-        }
-        resizeCanvas();
-        window.addEventListener('resize',resizeCanvas);
+      <input
+        type="text"
+        id="cityInput"
+        placeholder="请输入城市，例如：天津"
+      >
 
-        // 鼠标交互
-        let mouse = {x:null,y:null,radius:200};
-        window.addEventListener('mousemove',e=>{
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-        window.addEventListener('touchmove',e=>{
-            mouse.x = e.touches[0].clientX;
-            mouse.y = e.touches[0].clientY;
-        });
+      <button onclick="loadAllData()">
+        查询天气
+      </button>
 
-        // 粒子类
-        class Particle{
-            constructor(){
-                this.x = Math.random()*canvasW;
-                this.y = Math.random()*canvasH;
-                this.radius = Math.random()*2.5 + 0.5;
-                this.speedX = Math.random()*0.6 - 0.3;
-                this.speedY = Math.random()*0.6 - 0.3;
-                this.color1 = '#42a5f5';
-                this.color2 = '#64ffda';
-                this.color = Math.random()>0.5 ? this.color1 : this.color2;
-            }
-            update(){
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if(this.x<0||this.x>canvasW) this.speedX *= -1;
-                if(this.y<0||this.y>canvasH) this.speedY *= -1;
-            }
-            draw(){
-                ctx.beginPath();
-                ctx.arc(this.x,this.y,this.radius,0,Math.PI*2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
-        }
+    </div>
 
-        let particles = [];
-        // 更多粒子 高级密度
-        function init(){
-            particles = [];
-            let count = Math.floor((canvasW*canvasH)/8000);
-            for(let i=0;i<count;i++){
-                particles.push(new Particle());
-            }
-        }
+  </div>
 
-        // 粒子连线
-        function lineParticles(){
-            for(let a=0;a<particles.length;a++){
-                for(let b=a+1;b<particles.length;b++){
-                    let dx = particles[a].x - particles[b].x;
-                    let dy = particles[a].y - particles[b].y;
-                    let d = Math.sqrt(dx*dx+dy*dy);
-                    if(d < 120){
-                        let opacity = 1 - d/120;
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(100,255,218,${opacity*0.35})`;
-                        ctx.lineWidth = 0.4;
-                        ctx.moveTo(particles[a].x,particles[a].y);
-                        ctx.lineTo(particles[b].x,particles[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
+</div>
 
-        // 动画循环
-        function animate(){
-            ctx.clearRect(0,0,canvasW,canvasH);
-            particles.forEach(p=>{
-                p.update();
-                p.draw();
-            });
-            lineParticles();
-            requestAnimationFrame(animate);
-        }
+<!-- 天气 -->
 
-        init();
-        animate();
-        window.addEventListener('resize',()=>{
-            resizeCanvas();
-            init();
-        });
+<div class="weather-wrapper">
 
-        // 导航栏滚动悬浮效果
-        window.addEventListener('scroll',function(){
-            let header = document.querySelector('header');
-            header.classList.toggle('sticky',window.scrollY>50);
-        });
+  <div class="weather-card">
 
-        // 区块滚动渐入动画
-        const sections = document.querySelectorAll('.section');
-        function checkScroll(){
-            sections.forEach(item=>{
-                let top = item.getBoundingClientRect().top;
-                let winH = window.innerHeight;
-                if(top < winH*0.85){
-                    item.classList.add('show');
-                }
-            });
-        }
-        window.addEventListener('scroll',checkScroll);
-        window.addEventListener('load',checkScroll);
-    </script>
+    <div class="weather-left">
+
+      <div class="city" id="city">
+        天津
+      </div>
+
+      <div class="temp" id="temp">
+        --
+      </div>
+
+      <div class="weather" id="weather">
+        天气加载中...
+      </div>
+
+    </div>
+
+    <div class="weather-right">
+
+      <div class="info-box">
+        <div class="info-title">风向</div>
+        <div class="info-value" id="wind">--</div>
+      </div>
+
+      <div class="info-box">
+        <div class="info-title">湿度</div>
+        <div class="info-value" id="humidity">--</div>
+      </div>
+
+      <div class="info-box">
+        <div class="info-title">空气质量</div>
+        <div class="info-value" id="air">--</div>
+      </div>
+
+      <div class="info-box">
+        <div class="info-title">更新时间</div>
+        <div class="info-value" id="time">--</div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- 内容 -->
+
+<div class="container">
+
+  <div class="section-title">
+    🔥 知乎推荐
+  </div>
+
+  <div id="topStories" class="top-stories"></div>
+
+  <div class="section-title">
+    📚 今日热文
+  </div>
+
+  <div id="newsList" class="news-list"></div>
+
+  <div id="loading" class="loading"></div>
+
+  <div id="error" class="error"></div>
+
+</div>
+
+<script>
+
+/* ===========================
+   天气接口
+=========================== */
+
+async function getWeather(city){
+
+  const api =
+  `https://v.api.aa1.cn/api/api-tianqi-3/index.php?msg=${city}&type=1`;
+
+  const res = await fetch(api);
+
+  return await res.json();
+
+}
+
+/* ===========================
+   知乎日报接口
+=========================== */
+
+async function getZhihu(){
+
+  const api =
+  "https://v.api.aa1.cn/api/zhihu-news/index.php?aa1=xiarou";
+
+  const res = await fetch(api);
+
+  return await res.json();
+
+}
+
+/* ===========================
+   加载全部
+=========================== */
+
+async function loadAllData(){
+
+  const city =
+  document.getElementById("cityInput")
+  .value
+  .trim() || "天津";
+
+  const loading =
+  document.getElementById("loading");
+
+  const error =
+  document.getElementById("error");
+
+  loading.innerHTML = "正在加载数据...";
+
+  error.innerHTML = "";
+
+  try{
+
+    const [weatherData, zhihuData] =
+    await Promise.all([
+      getWeather(city),
+      getZhihu()
+    ]);
+
+    renderWeather(weatherData, city);
+
+    renderTopStories(
+      zhihuData.top_stories || []
+    );
+
+    renderNews(
+      zhihuData.news || []
+    );
+
+    loading.innerHTML = "";
+
+  }catch(err){
+
+    console.error(err);
+
+    loading.innerHTML = "";
+
+    error.innerHTML =
+    "接口请求失败，请使用 Live Server 运行";
+
+  }
+
+}
+
+/* ===========================
+   渲染天气
+=========================== */
+
+function renderWeather(data, city){
+
+  document.getElementById("city")
+  .innerHTML =
+  data.city || city;
+
+  document.getElementById("temp")
+  .innerHTML =
+  (data.temp || "--") + "°";
+
+  document.getElementById("weather")
+  .innerHTML =
+  data.weather || "暂无天气";
+
+  document.getElementById("wind")
+  .innerHTML =
+  data.wind || "--";
+
+  document.getElementById("humidity")
+  .innerHTML =
+  data.humidity || "--";
+
+  document.getElementById("air")
+  .innerHTML =
+  data.air || "--";
+
+  document.getElementById("time")
+  .innerHTML =
+  data.time || "--";
+
+}
+
+/* ===========================
+   渲染顶部推荐
+=========================== */
+
+function renderTopStories(list){
+
+  const container =
+  document.getElementById("topStories");
+
+  let html = "";
+
+  list.forEach(item=>{
+
+    html += `
+      <a href="${item.url}" target="_blank">
+
+        <div class="top-card">
+
+          <img src="${item.image}" />
+
+          <div class="overlay">
+
+            <h3>${item.title}</h3>
+
+            <p>${item.hint}</p>
+
+          </div>
+
+        </div>
+
+      </a>
+    `;
+
+  });
+
+  container.innerHTML = html;
+
+}
+
+/* ===========================
+   渲染新闻
+=========================== */
+
+function renderNews(list){
+
+  const container =
+  document.getElementById("newsList");
+
+  let html = "";
+
+  list.forEach(item=>{
+
+    html += `
+      <a href="${item.url}" target="_blank">
+
+        <div class="news-card">
+
+          <img src="${item.image}" />
+
+          <div class="news-content">
+
+            <div class="news-title">
+              ${item.title}
+            </div>
+
+            <div class="news-hint">
+              ${item.hint}
+            </div>
+
+          </div>
+
+        </div>
+
+      </a>
+    `;
+
+  });
+
+  container.innerHTML = html;
+
+}
+
+/* 默认加载 */
+
+window.onload = ()=>{
+
+  document.getElementById("cityInput")
+  .value = "天津";
+
+  loadAllData();
+
+}
+
+</script>
+
 </body>
 </html>
