@@ -1,453 +1,189 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>天气 + 知乎日报</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天气预报</title>
 
-  <style>
+<style>
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-    body{
-      font-family:"Microsoft YaHei",sans-serif;
-      background:#f5f7fb;
-      color:#333;
-    }
+body{
+  font-family:"Microsoft YaHei",sans-serif;
+  background:linear-gradient(135deg,#4facfe,#00f2fe);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:40px 20px;
+  color:#fff;
+}
 
-    a{
-      text-decoration:none;
-      color:inherit;
-    }
+.container{
+  width:100%;
+  max-width:900px;
+}
 
-    /* 顶部背景 */
+.title{
+  text-align:center;
+  font-size:42px;
+  font-weight:bold;
+  margin-bottom:25px;
+}
 
-    .hero{
-      position:relative;
-      height:420px;
-      background:
-      linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
-      url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop');
-      background-size:cover;
-      background-position:center;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#fff;
-    }
+.search{
+  display:flex;
+  gap:12px;
+  margin-bottom:25px;
+}
 
-    .hero-content{
-      width:100%;
-      max-width:1200px;
-      padding:20px;
-    }
+.search input{
+  flex:1;
+  height:50px;
+  border:none;
+  border-radius:14px;
+  padding:0 15px;
+  font-size:16px;
+  outline:none;
+}
 
-    .hero-title{
-      font-size:48px;
-      font-weight:bold;
-      margin-bottom:20px;
-    }
+.search button{
+  width:130px;
+  border:none;
+  border-radius:14px;
+  background:#1677ff;
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+}
 
-    .search-box{
-      display:flex;
-      gap:15px;
-      max-width:500px;
-    }
+.search button:hover{
+  background:#4096ff;
+}
 
-    .search-box input{
-      flex:1;
-      height:50px;
-      border:none;
-      border-radius:14px;
-      padding:0 18px;
-      font-size:16px;
-      outline:none;
-    }
+/* 顶部卡片 */
 
-    .search-box button{
-      width:130px;
-      border:none;
-      border-radius:14px;
-      background:#1677ff;
-      color:#fff;
-      font-size:16px;
-      cursor:pointer;
-      transition:.3s;
-    }
+.card{
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(12px);
+  border-radius:25px;
+  padding:25px;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  margin-bottom:20px;
+}
 
-    .search-box button:hover{
-      background:#4096ff;
-    }
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:15px;
+}
 
-    /* 天气卡片 */
+.city{
+  font-size:34px;
+  font-weight:bold;
+}
 
-    .weather-wrapper{
-      max-width:1200px;
-      margin:auto;
-      margin-top:-80px;
-      position:relative;
-      z-index:2;
-      padding:0 20px;
-    }
+.time{
+  font-size:18px;
+  opacity:.9;
+}
 
-    .weather-card{
-      background:#fff;
-      border-radius:25px;
-      padding:30px;
-      box-shadow:0 10px 30px rgba(0,0,0,.1);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:20px;
-    }
+.warm{
+  margin-top:10px;
+  font-size:15px;
+  opacity:.85;
+}
 
-    .weather-left{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
+/* 逐日天气 */
 
-    .city{
-      font-size:38px;
-      font-weight:bold;
-    }
+.list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:15px;
+  margin-top:20px;
+}
 
-    .temp{
-      font-size:70px;
-      font-weight:bold;
-      color:#1677ff;
-    }
+.item{
+  background:rgba(255,255,255,.12);
+  padding:18px;
+  border-radius:18px;
+  text-align:center;
+  transition:.3s;
+}
 
-    .weather{
-      font-size:22px;
-      color:#666;
-    }
+.item:hover{
+  transform:translateY(-5px);
+}
 
-    .weather-right{
-      display:grid;
-      grid-template-columns:repeat(2,160px);
-      gap:15px;
-    }
+.week{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
 
-    .info-box{
-      background:#f5f7fb;
-      padding:18px;
-      border-radius:16px;
-      text-align:center;
-    }
+.weather{
+  font-size:16px;
+  margin-bottom:8px;
+}
 
-    .info-title{
-      color:#888;
-      margin-bottom:10px;
-    }
+.temp{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
 
-    .info-value{
-      font-size:24px;
-      font-weight:bold;
-      color:#333;
-    }
+.pm{
+  font-size:13px;
+  opacity:.85;
+}
 
-    /* 内容区域 */
+.loading,
+.error{
+  text-align:center;
+  margin-top:15px;
+  font-size:18px;
+}
 
-    .container{
-      max-width:1200px;
-      margin:auto;
-      padding:40px 20px;
-    }
+.error{
+  color:#ffe1e1;
+}
 
-    .section-title{
-      font-size:34px;
-      font-weight:bold;
-      margin-bottom:30px;
-    }
-
-    /* 顶部推荐 */
-
-    .top-stories{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:25px;
-      margin-bottom:50px;
-    }
-
-    .top-card{
-      position:relative;
-      height:240px;
-      border-radius:22px;
-      overflow:hidden;
-      box-shadow:0 8px 20px rgba(0,0,0,.15);
-      transition:.3s;
-    }
-
-    .top-card:hover{
-      transform:translateY(-6px);
-    }
-
-    .top-card img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .overlay{
-      position:absolute;
-      left:0;
-      bottom:0;
-      width:100%;
-      padding:20px;
-      background:linear-gradient(
-        transparent,
-        rgba(0,0,0,.85)
-      );
-      color:#fff;
-    }
-
-    .overlay h3{
-      font-size:20px;
-      line-height:1.6;
-      margin-bottom:10px;
-    }
-
-    .overlay p{
-      font-size:14px;
-      opacity:.9;
-    }
-
-    /* 新闻列表 */
-
-    .news-list{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-      gap:30px;
-    }
-
-    .news-card{
-      background:#fff;
-      border-radius:22px;
-      overflow:hidden;
-      box-shadow:0 8px 20px rgba(0,0,0,.08);
-      transition:.3s;
-    }
-
-    .news-card:hover{
-      transform:translateY(-6px);
-    }
-
-    .news-card img{
-      width:100%;
-      height:220px;
-      object-fit:cover;
-    }
-
-    .news-content{
-      padding:22px;
-    }
-
-    .news-title{
-      font-size:22px;
-      font-weight:bold;
-      line-height:1.7;
-      margin-bottom:12px;
-    }
-
-    .news-hint{
-      color:#888;
-      font-size:15px;
-    }
-
-    .loading,
-    .error{
-      text-align:center;
-      margin-top:30px;
-      font-size:18px;
-    }
-
-    .error{
-      color:red;
-    }
-
-    @media(max-width:768px){
-
-      .hero{
-        height:500px;
-      }
-
-      .hero-title{
-        font-size:38px;
-      }
-
-      .search-box{
-        flex-direction:column;
-      }
-
-      .search-box button{
-        width:100%;
-        height:50px;
-      }
-
-      .weather-card{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-
-      .weather-right{
-        grid-template-columns:1fr 1fr;
-        width:100%;
-      }
-
-      .temp{
-        font-size:55px;
-      }
-
-    }
-
-  </style>
+</style>
 </head>
 
 <body>
 
-<!-- 顶部 -->
-
-<div class="hero">
-
-  <div class="hero-content">
-
-    <div class="hero-title">
-      ☁ 天气 · 知乎日报
-    </div>
-
-    <div class="search-box">
-
-      <input
-        type="text"
-        id="cityInput"
-        placeholder="请输入城市，例如：天津"
-      >
-
-      <button onclick="loadAllData()">
-        查询天气
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- 天气 -->
-
-<div class="weather-wrapper">
-
-  <div class="weather-card">
-
-    <div class="weather-left">
-
-      <div class="city" id="city">
-        天津
-      </div>
-
-      <div class="temp" id="temp">
-        --
-      </div>
-
-      <div class="weather" id="weather">
-        天气加载中...
-      </div>
-
-    </div>
-
-    <div class="weather-right">
-
-      <div class="info-box">
-        <div class="info-title">风向</div>
-        <div class="info-value" id="wind">--</div>
-      </div>
-
-      <div class="info-box">
-        <div class="info-title">湿度</div>
-        <div class="info-value" id="humidity">--</div>
-      </div>
-
-      <div class="info-box">
-        <div class="info-title">空气质量</div>
-        <div class="info-value" id="air">--</div>
-      </div>
-
-      <div class="info-box">
-        <div class="info-title">更新时间</div>
-        <div class="info-value" id="time">--</div>
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- 内容 -->
-
 <div class="container">
 
-  <div class="section-title">
-    🔥 知乎推荐
+  <div class="title">🌤️ 天气预报</div>
+
+  <div class="search">
+
+    <input id="cityInput" placeholder="请输入城市，例如：天津">
+
+    <button onclick="getWeather()">
+      查询
+    </button>
+
   </div>
 
-  <div id="topStories" class="top-stories"></div>
-
-  <div class="section-title">
-    📚 今日热文
-  </div>
-
-  <div id="newsList" class="news-list"></div>
-
-  <div id="loading" class="loading"></div>
-
+  <div id="loading"></div>
   <div id="error" class="error"></div>
+
+  <div id="result"></div>
 
 </div>
 
 <script>
 
-/* ===========================
-   天气接口
-=========================== */
-
-async function getWeather(city){
-
-  const api =
-  `https://v.api.aa1.cn/api/api-tianqi-3/index.php?msg=${city}&type=1`;
-
-  const res = await fetch(api);
-
-  return await res.json();
-
-}
-
-/* ===========================
-   知乎日报接口
-=========================== */
-
-async function getZhihu(){
-
-  const api =
-  "https://v.api.aa1.cn/api/zhihu-news/index.php?aa1=xiarou";
-
-  const res = await fetch(api);
-
-  return await res.json();
-
-}
-
-/* ===========================
-   加载全部
-=========================== */
-
-async function loadAllData(){
+async function getWeather(){
 
   const city =
   document.getElementById("cityInput")
@@ -460,29 +196,89 @@ async function loadAllData(){
   const error =
   document.getElementById("error");
 
-  loading.innerHTML = "正在加载数据...";
+  const result =
+  document.getElementById("result");
 
+  loading.innerHTML = "加载中...";
   error.innerHTML = "";
+  result.innerHTML = "";
 
   try{
 
-    const [weatherData, zhihuData] =
-    await Promise.all([
-      getWeather(city),
-      getZhihu()
-    ]);
+    const api =
+    `https://v.api.aa1.cn/api/api-tianqi-3/index.php?msg=${city}&type=1`;
 
-    renderWeather(weatherData, city);
+    const res = await fetch(api);
 
-    renderTopStories(
-      zhihuData.top_stories || []
-    );
+    if(!res.ok){
+      throw new Error("请求失败");
+    }
 
-    renderNews(
-      zhihuData.news || []
-    );
+    const data = await res.json();
+
+    console.log(data);
 
     loading.innerHTML = "";
+
+    let html = "";
+
+    html += `
+      <div class="card">
+
+        <div class="top">
+
+          <div>
+            <div class="city">
+              ${data.city}
+            </div>
+
+            <div class="warm">
+              ${data.warmWords}
+            </div>
+          </div>
+
+          <div class="time">
+            ${data.date_day} ${data.date_h}
+          </div>
+
+        </div>
+
+        <div class="list">
+    `;
+
+    data.data.forEach(item=>{
+
+      html += `
+        <div class="item">
+
+          <div class="week">
+            ${item.date}
+          </div>
+
+          <div class="weather">
+            ${item.weather}
+          </div>
+
+          <div class="temp">
+            ${item.temperature}
+          </div>
+
+          <div class="pm">
+            PM：${item.pm}
+          </div>
+
+        </div>
+      `;
+
+    });
+
+    html += `
+        </div>
+
+      </div>
+    `;
+
+    result.innerHTML = html;
 
   }catch(err){
 
@@ -491,138 +287,19 @@ async function loadAllData(){
     loading.innerHTML = "";
 
     error.innerHTML =
-    "接口请求失败，请使用 Live Server 运行";
+    "接口请求失败，请检查网络或接口";
 
   }
 
 }
 
-/* ===========================
-   渲染天气
-=========================== */
-
-function renderWeather(data, city){
-
-  document.getElementById("city")
-  .innerHTML =
-  data.city || city;
-
-  document.getElementById("temp")
-  .innerHTML =
-  (data.temp || "--") + "°";
-
-  document.getElementById("weather")
-  .innerHTML =
-  data.weather || "暂无天气";
-
-  document.getElementById("wind")
-  .innerHTML =
-  data.wind || "--";
-
-  document.getElementById("humidity")
-  .innerHTML =
-  data.humidity || "--";
-
-  document.getElementById("air")
-  .innerHTML =
-  data.air || "--";
-
-  document.getElementById("time")
-  .innerHTML =
-  data.time || "--";
-
-}
-
-/* ===========================
-   渲染顶部推荐
-=========================== */
-
-function renderTopStories(list){
-
-  const container =
-  document.getElementById("topStories");
-
-  let html = "";
-
-  list.forEach(item=>{
-
-    html += `
-      <a href="${item.url}" target="_blank">
-
-        <div class="top-card">
-
-          <img src="${item.image}" />
-
-          <div class="overlay">
-
-            <h3>${item.title}</h3>
-
-            <p>${item.hint}</p>
-
-          </div>
-
-        </div>
-
-      </a>
-    `;
-
-  });
-
-  container.innerHTML = html;
-
-}
-
-/* ===========================
-   渲染新闻
-=========================== */
-
-function renderNews(list){
-
-  const container =
-  document.getElementById("newsList");
-
-  let html = "";
-
-  list.forEach(item=>{
-
-    html += `
-      <a href="${item.url}" target="_blank">
-
-        <div class="news-card">
-
-          <img src="${item.image}" />
-
-          <div class="news-content">
-
-            <div class="news-title">
-              ${item.title}
-            </div>
-
-            <div class="news-hint">
-              ${item.hint}
-            </div>
-
-          </div>
-
-        </div>
-
-      </a>
-    `;
-
-  });
-
-  container.innerHTML = html;
-
-}
-
 /* 默认加载 */
-
 window.onload = ()=>{
 
   document.getElementById("cityInput")
   .value = "天津";
 
-  loadAllData();
+  getWeather();
 
 }
 
